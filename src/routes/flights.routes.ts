@@ -30,18 +30,26 @@ router.get('/flights', async (req: Request, res: Response) => {
   try {
     const flights = await FlightService.getFlights(currency, date);
     res.send(flights);
-  } catch (e) {
+  } catch (exception) {
+    console.log(exception);
     res.send({
-      'code': 'ERROR',
-      'message': e
+        'code': 'COULD_NOT_RETRIEVE_FLIGHTS',
+        'message': 'Could not retrieve flights'
     });
   }
 });
 
 
 router.get('/flights/currencies', async (req: Request, res: Response) => {
-    console.log(req)
+  try {
     res.send(await CurrencyService.getAllCurrencies());
+  } catch (exception) {
+    console.log(exception);
+    res.send({
+        'code': 'COULD_NOT_RETRIEVE_CURRENCIES',
+        'message': 'Could not retrieve currencies'
+      });
+}
   });
 
 export default router;

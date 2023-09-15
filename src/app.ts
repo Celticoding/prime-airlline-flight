@@ -7,7 +7,7 @@ const port: number = 8081
 
 app.use(flightRouter);
 
-app.get('/health', (req: Request, res: Response) => {
+app.get('/health', (_, res: Response) => {
     res.sendStatus(200)
 })
 

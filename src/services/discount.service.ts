@@ -1,5 +1,6 @@
 import axios from 'axios';
 import FlightDto from '../dtos/flight.dto';
+import DiscountDto from '../dtos/discount.dto';
 
 
 class DiscountService {
@@ -8,15 +9,18 @@ class DiscountService {
     const response = await axios.get(DATA_ACCES_API + "/discounts")
     const discountsFromDb = response.data;
     
-    return flights.map(flight => {
+    return await Promise.all(flights.map( async (flight) => {
       const price = flight.price;
-      const discounts = discountsFromDb.filter((discount: { flightId: number; }) => discount.flightId === flight.id)
-        .map((discount: { percent: number; }) => {
+      const discounts = await Promise.all(discountsFromDb.filter((discount: DiscountDto) => discount.originalFlightId === flight.id)
+        .map(async(discount: DiscountDto) => {
+            delete discount.originalFlightId
+            const discountedFlight = await axios.get(DATA_ACCES_API + "/flight/"+discount.flightId)
+            delete discount.flightId
             const discountPrice = +(price - (price * (discount.percent / 100))).toFixed(2);
-            return { ...discount, discountPrice };
-        });
-      return { ...flight, discounts, 'titi': 'toto' } as FlightDto;
-    });
+            return { ...discount, discountPrice, flight: discountedFlight.data };
+        }));
+      return { ...flight, discounts } as FlightDto;
+    }));
   }
 }
 

@@ -1,5 +1,3 @@
-import FlightDto from "./flight.dto";
-
 interface DiscountDto {
     originalFlightId?: number,
     flightId?: number, 

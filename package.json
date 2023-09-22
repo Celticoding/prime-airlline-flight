@@ -12,6 +12,7 @@
         "@types/express": "^4.17.17",
         "@types/node": "^20.6.0",
         "nodemon": "^3.0.1",
+        "swagger-autogen": "^2.23.6",
         "ts-node": "^10.9.1",
         "typescript": "^5.2.2"
     }

@@ -1,15 +1,3 @@
-# prime-airlline-flight
-
-## How to start
-
-```code
-npm i
-npm run dev
-```
-
-## Endpoints
-
-```JSON
 {
   "swagger": "2.0",
   "info": {
@@ -60,4 +48,3 @@ npm run dev
     }
   }
 }
-```
